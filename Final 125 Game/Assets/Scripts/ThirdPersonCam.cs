@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Used this video for Third-Person Movement: https://www.youtube.com/watch?v=UCwwn2q4Vys&ab_channel=Dave%2FGameDevelopment
+// Used this video for Third-Person Camera: https://www.youtube.com/watch?v=UCwwn2q4Vys&ab_channel=Dave%2FGameDevelopment
 
 public class ThirdPersonCam : MonoBehaviour
 {
