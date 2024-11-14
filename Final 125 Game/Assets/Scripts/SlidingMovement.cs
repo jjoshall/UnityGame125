@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SlidingMovement : MonoBehaviour
@@ -11,39 +9,36 @@ public class SlidingMovement : MonoBehaviour
      private PlayerMovement pm;
 
      [Header("Sliding")]
-     public float maxSlideTime;
      public float slideForce;
-     private float slideTimer;
-
-     public float slideYScale;
-     private float startYScale;
+     public float maxSpeed = 15f;
+     public float slopeThreshold = 5f; // Angle threshold to start sliding (adjust as needed)
+     public float sideSlideForce = 10f;
 
      private float horizontalInput;
-     private float verticalInput;
 
+     private bool canMove = true; // Allows free movement on flat ground
      private bool sliding;
 
      private void Start()
      {
           rb = GetComponent<Rigidbody>();
           pm = GetComponent<PlayerMovement>();
-
-          startYScale = playerObj.localScale.y;
+          slideForce = 10f;
      }
 
      private void Update()
      {
-          horizontalInput = Input.GetAxisRaw("Horizontal");
-          verticalInput = Input.GetAxisRaw("Vertical");
+          horizontalInput = Input.GetAxisRaw("Horizontal") * sideSlideForce;
 
-          if (Input.GetKeyDown(KeyCode.LeftControl) && (horizontalInput != 0 || verticalInput !=0))
+          // Check if we're on a slope
+          if (pm.OnSlope() && pm.GetSlopeAngle() > slopeThreshold)
           {
-               StartSlide();
+               canMove = false; // Disable free movement once on slope
+               if (!sliding) StartSlide();
           }
-
-          if (Input.GetKeyUp(KeyCode.LeftControl) && sliding)
+          else
           {
-               StopSlide();
+               canMove = true; // Allow free movement on flat ground
           }
      }
 
@@ -52,47 +47,39 @@ public class SlidingMovement : MonoBehaviour
           if (sliding)
           {
                Sliding();
+               LimitSpeed();
+          }
+          else if (canMove)
+          {
+               // Allow free movement if still at the top
+               Vector3 sideMovement = orientation.right * horizontalInput;
+               rb.AddForce(sideMovement * slideForce, ForceMode.Force);
           }
      }
 
      private void StartSlide()
      {
           sliding = true;
-
-          playerObj.localScale = new Vector3(playerObj.localScale.x, slideYScale, playerObj.localScale.z);
           rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
-
-          slideTimer = maxSlideTime;
      }
 
      private void Sliding()
      {
-          Vector3 inputdirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+          Vector3 downwardForce = pm.OnSlope() ? pm.GetSlopeMoveDirection(Vector3.down) : Vector3.down;
+          rb.AddForce(downwardForce * slideForce, ForceMode.Force);
 
-          // Sliding normal
-          if (!pm.OnSlope() || rb.velocity.y > -0.1f)
-          {
-               rb.AddForce(inputdirection.normalized * slideForce, ForceMode.Force);
-
-               slideTimer -= Time.deltaTime;
-          }
-
-          // Sliding down a slope
-          else
-          {
-               rb.AddForce(pm.GetSlopeMoveDirection(inputdirection) * slideForce, ForceMode.Force);
-          }
-
-          if (slideTimer <= 0)
-          {
-               StopSlide();
-          }
+          // Allow side movement while sliding, but limit its effect
+          Vector3 sideMovement = orientation.right * horizontalInput;
+          rb.AddForce(sideMovement * slideForce * 0.5f, ForceMode.Force);
      }
 
-     private void StopSlide()
+     private void LimitSpeed()
      {
-          sliding = false;
-
-          playerObj.localScale = new Vector3(playerObj.localScale.x, startYScale, playerObj.localScale.z);
+          Vector3 flatVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+          if (flatVelocity.magnitude > maxSpeed)
+          {
+               Vector3 clampedVelocity = flatVelocity.normalized * maxSpeed;
+               rb.velocity = new Vector3(clampedVelocity.x, rb.velocity.y, clampedVelocity.z);
+          }
      }
 }
