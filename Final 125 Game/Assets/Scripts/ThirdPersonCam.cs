@@ -4,6 +4,12 @@ using UnityEngine;
 
 // Used this video for Third-Person Camera: https://www.youtube.com/watch?v=UCwwn2q4Vys&ab_channel=Dave%2FGameDevelopment
 
+/*
+ * WE ARE NOT USING THIS SCRIPT AT THE MOMENT. THIS WAS FOR THE 
+ * THIRD PERSON CAMERA IF WE WANT THE PLAYER TO BE ABLE TO LOOK AROUND.
+ * THIS USES THE CINEMACHINE PACKAGE IN UNITY.
+*/
+
 public class ThirdPersonCam : MonoBehaviour
 {
      [Header("References")]
