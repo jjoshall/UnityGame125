@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.735849, g: 0.5935386, b: 0.5935386, a: 1}
+  m_AmbientSkyColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -260,7 +260,7 @@ Transform:
   m_GameObject: {fileID: 180558306}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.000010073, y: -295.2, z: -74.8}
+  m_LocalPosition: {x: -0.000010073, y: -295.2, z: -123}
   m_LocalScale: {x: 1186.4407, y: 1295.3805, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -541,7 +541,7 @@ Transform:
   m_GameObject: {fileID: 444740617}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 315.2516, z: -152.268}
+  m_LocalPosition: {x: -2, y: 314.22, z: -152.268}
   m_LocalScale: {x: 131.27007, y: 1, z: 108.31039}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -646,7 +646,7 @@ Transform:
   m_GameObject: {fileID: 530219286}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.08, y: 322.69, z: -228.32}
+  m_LocalPosition: {x: 59.94, y: -1.38, z: -626}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -774,7 +774,7 @@ Transform:
   m_GameObject: {fileID: 811611323}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -14.87, z: 20.91}
+  m_LocalPosition: {x: 0, y: -20.08, z: 6.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -986,7 +986,7 @@ Transform:
   m_GameObject: {fileID: 979151762}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00000047684, y: -325.3, z: 20.3}
+  m_LocalPosition: {x: -0.00000047684, y: -325.3, z: -73.44}
   m_LocalScale: {x: 118.02384, y: 70.595, z: 16.527395}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1103,7 +1103,7 @@ Transform:
   m_GameObject: {fileID: 981784082}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7793112, y: -3.0484009, z: -589.341}
+  m_LocalPosition: {x: 0.7793112, y: -3.0484009, z: -632.8}
   m_LocalScale: {x: 137.54616, y: 1, z: 139.57683}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1478,10 +1478,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 1275127423}
   playerObj: {fileID: 2050500489}
-  slideForce: 100
+  slideForce: 10
   maxSpeed: 15
   slopeThreshold: 5
-  sideSlideForce: 10
+  sideSlideForce: 4
+  downhillBrakeForce: 100
 --- !u!1 &1275127422
 GameObject:
   m_ObjectHideFlags: 0
@@ -1619,7 +1620,7 @@ GameObject:
   - component: {fileID: 1376116065}
   - component: {fileID: 1376116064}
   - component: {fileID: 1376116063}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Slope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1705,13 +1706,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1376116062}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0.1, y: 121.5, z: -400.1}
+  m_LocalRotation: {x: -0.31730464, y: 0, z: 0, w: 0.94832367}
+  m_LocalPosition: {x: 0.1, y: 149.3, z: -425}
   m_LocalScale: {x: 125.008896, y: 1, z: 548.3566}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -37, y: 0, z: 0}
 --- !u!1 &1675502761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,15 +1872,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstaclePrefab: {fileID: 7959662522056669187, guid: 1eefbfdab78429d44bc44ca1bebff758, type: 3}
-  spawnChance: 20
+  spawnChance: 15
   distanceBetweenChecks: 5
   heightOfCheck: 330
   rangeOfCheck: 350
   layerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  positivePosition: {x: 59, y: -208}
-  negativePosition: {x: -59, y: -524}
+  positivePosition: {x: 60, y: -212}
+  negativePosition: {x: -60, y: -626}
 --- !u!4 &1861661633
 Transform:
   m_ObjectHideFlags: 0

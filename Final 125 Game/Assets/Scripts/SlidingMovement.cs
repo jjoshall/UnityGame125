@@ -9,10 +9,11 @@ public class SlidingMovement : MonoBehaviour
      private PlayerMovement pm;
 
      [Header("Sliding")]
-     public float slideForce;
+     public float slideForce = 10f;
      public float maxSpeed = 15f;
      public float slopeThreshold = 5f; // Angle threshold to start sliding (adjust as needed)
      public float sideSlideForce = 10f;
+     public float downhillBrakeForce = 5f; // Opposing force to control downhill acceleration
 
      private float horizontalInput;
 
@@ -23,7 +24,6 @@ public class SlidingMovement : MonoBehaviour
      {
           rb = GetComponent<Rigidbody>();
           pm = GetComponent<PlayerMovement>();
-          slideForce = 10f;
      }
 
      private void Update()
@@ -39,6 +39,7 @@ public class SlidingMovement : MonoBehaviour
           else
           {
                canMove = true; // Allow free movement on flat ground
+               sliding = false;
           }
      }
 
@@ -60,7 +61,7 @@ public class SlidingMovement : MonoBehaviour
      private void StartSlide()
      {
           sliding = true;
-          rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+          rb.AddForce(Vector3.down * 5f, ForceMode.Impulse); // Initial nudge to start sliding
      }
 
      private void Sliding()
@@ -68,18 +69,22 @@ public class SlidingMovement : MonoBehaviour
           Vector3 downwardForce = pm.OnSlope() ? pm.GetSlopeMoveDirection(Vector3.down) : Vector3.down;
           rb.AddForce(downwardForce * slideForce, ForceMode.Force);
 
-          // Allow side movement while sliding, but limit its effect
+          // Allow side movement while sliding
           Vector3 sideMovement = orientation.right * horizontalInput;
           rb.AddForce(sideMovement * slideForce * 0.5f, ForceMode.Force);
+
+          // Apply a braking force if the player exceeds maxSpeed
+          if (rb.velocity.magnitude > maxSpeed)
+          {
+               rb.AddForce(-rb.velocity.normalized * downhillBrakeForce, ForceMode.Force);
+          }
      }
 
      private void LimitSpeed()
      {
-          Vector3 flatVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-          if (flatVelocity.magnitude > maxSpeed)
+          if (rb.velocity.magnitude > maxSpeed)
           {
-               Vector3 clampedVelocity = flatVelocity.normalized * maxSpeed;
-               rb.velocity = new Vector3(clampedVelocity.x, rb.velocity.y, clampedVelocity.z);
+               rb.velocity = rb.velocity.normalized * maxSpeed;
           }
      }
 }

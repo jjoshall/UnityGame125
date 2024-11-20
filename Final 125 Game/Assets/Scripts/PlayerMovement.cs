@@ -9,18 +9,17 @@ public class PlayerMovement : MonoBehaviour
      [Header("Ground Check")]
      public float playerHeight;
      public LayerMask whatIsGround;
-     bool grounded;
+     private bool grounded;
 
      [Header("Slope Handling")]
      public float maxSlopeAngle;
      private RaycastHit slopeHit;
-     private bool exitingSlope;
 
      public Transform orientation;
 
-     float horizontalInput;
+     private float horizontalInput;
 
-     Rigidbody rb;
+     private Rigidbody rb;
 
      private void Start()
      {
@@ -40,24 +39,28 @@ public class PlayerMovement : MonoBehaviour
      {
           horizontalInput = Input.GetAxisRaw("Horizontal");
      }
+
      public float GetSlopeAngle()
      {
-          return slopeHit.collider != null ? Vector3.Angle(Vector3.up, slopeHit.normal) : 0f;
+          if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f, whatIsGround))
+          {
+               return Vector3.Angle(Vector3.up, slopeHit.normal);
+          }
+          return 0f;
      }
 
-     // Slope detection methods, if needed by SlidingMovement.cs
      public bool OnSlope()
      {
-          if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
+          if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f, whatIsGround))
           {
                float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
-               return angle < maxSlopeAngle && angle != 0;
+               return slopeHit.collider != null && angle > 0 && angle <= maxSlopeAngle;
           }
           return false;
      }
 
      public Vector3 GetSlopeMoveDirection(Vector3 direction)
      {
-          return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
+          return slopeHit.collider != null ? Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized : Vector3.zero;
      }
 }
