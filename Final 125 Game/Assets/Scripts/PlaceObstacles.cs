@@ -12,9 +12,9 @@ public class PlaceObstacles : MonoBehaviour
 
      [Header("Raycast Settings")]
      public float distanceBetweenChecks;
-     public float heightOfCheck = 10f, rangeOfCheck = 30f;
-     public LayerMask layerMask = ~0;
-     public Vector2 positivePosition, negativePosition;
+     public float heightOfCheck = 10f, rangeOfCheck = 30f;       // Height is how high the raycast is from the ground, range is how far down the raycast goes
+     public LayerMask layerMask = ~0;        // This is a mask that includes all layers
+     public Vector2 positivePosition, negativePosition;          // Tracks the area where the obstacles can spawn
 
      private void Start()
      {
@@ -23,6 +23,7 @@ public class PlaceObstacles : MonoBehaviour
 
      private void Update()
      {
+          // Press space to delete and respawn obstacles
           if (Input.GetKeyDown(KeyCode.Space))
           {
                DeleteObstacles();
@@ -30,6 +31,7 @@ public class PlaceObstacles : MonoBehaviour
           }
      }
 
+     // SpawnObstacles() will spawn obstacles in the area defined by positivePosition and negativePosition
      void SpawnObstacles()
      {
           for (float x = negativePosition.x; x < positivePosition.x; x += distanceBetweenChecks)
@@ -37,14 +39,11 @@ public class PlaceObstacles : MonoBehaviour
                for (float z = negativePosition.y; z < positivePosition.y; z += distanceBetweenChecks)
                {
                     RaycastHit hit;
-                    Debug.DrawRay(new Vector3(x, heightOfCheck, z), Vector3.down * rangeOfCheck, Color.red, 1f);
                     if (Physics.Raycast(new Vector3(x, heightOfCheck, z), Vector3.down, out hit, rangeOfCheck))
                     {
-                         Debug.Log("Raycast hit at: " + hit.point);
                          if (Random.Range(0, 101) < spawnChance)
                          {
                               Instantiate(obstaclePrefab, hit.point, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform);
-                              Debug.Log("Obstacle spawned at: " + hit.point);
                          }
                          else
                          {
