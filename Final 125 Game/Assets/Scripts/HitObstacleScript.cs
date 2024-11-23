@@ -10,9 +10,11 @@ public class HitObstacleScript : MonoBehaviour
      {
           if (other.CompareTag("Player"))
           {
-               // Restart the scene
-               Scene scene = SceneManager.GetActiveScene();
-               SceneManager.LoadScene(scene.name);
+               //unlock the cursor
+               Cursor.lockState = CursorLockMode.None;
+               Cursor.visible = true;
+               // load the game over scene
+               SceneManager.LoadScene("GameOverMenu");
           }
      }
 }
