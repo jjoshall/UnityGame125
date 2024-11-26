@@ -10,16 +10,12 @@ public class RestartGameHitboxScript : MonoBehaviour
      {
           if (other.gameObject.tag == "Player")
           {
-               Debug.Log("You beat the level! Restarting game in 3 seconds...");
-               // Wait for 3 seconds before restarting the game  
-               StartCoroutine(RestartGame());
-          }
-     }
+               // unlock the cursor
+               Cursor.lockState = CursorLockMode.None;
+               Cursor.visible = true;
 
-     IEnumerator RestartGame()
-     {
-          yield return new WaitForSeconds(3);
-          Scene scene = SceneManager.GetActiveScene();
-          SceneManager.LoadScene(scene.name);
+               // load the level completed scene
+               SceneManager.LoadScene("LevelCompletedMenu");
+          }
      }
 }
