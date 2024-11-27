@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
      [Header("Movement")]
      public float moveSpeed;
      public float groundDrag;
+     public float maxRotationAngle = 90f;
 
      [Header("Ground Check")]
      public float playerHeight;
@@ -130,5 +131,6 @@ public class PlayerMovement : MonoBehaviour
      {
           return slopeHit.collider != null ? Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized : Vector3.zero;
      }
+
 }
 
