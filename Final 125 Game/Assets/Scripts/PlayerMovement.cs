@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
      [Header("Movement")]
      public float moveSpeed;
      public float groundDrag;
+     public float maxRotationAngle = 90f;
 
      [Header("Ground Check")]
      public float playerHeight;
@@ -30,11 +31,21 @@ public class PlayerMovement : MonoBehaviour
      [Header("References")]
      public Transform orientation;
      public Transform playerObj;
+     public GameObject snowboard;
+
+     [Header("Snowboard Holders")]
+     public Transform normalStanceHolder;
+     public Transform leftTurnHolder;
+     public Transform rightTurnHolder;
+     public float lerpSpeed = 5f;
 
      private void Start()
      {
           rb = GetComponent<Rigidbody>();
           rb.freezeRotation = true;
+
+          // freeze the rotation on two axes of the snowboard
+          snowboard.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
      }
 
      private void Update()
@@ -57,6 +68,9 @@ public class PlayerMovement : MonoBehaviour
                canMove = true;
                sliding = false;
           }
+
+          UpdateSnowboardPosition();
+          UpdatePlayerRotation();
      }
 
      private void FixedUpdate()
@@ -129,6 +143,49 @@ public class PlayerMovement : MonoBehaviour
      private Vector3 GetSlopeMoveDirection(Vector3 direction)
      {
           return slopeHit.collider != null ? Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized : Vector3.zero;
+     }
+
+     private void UpdateSnowboardPosition()
+     {
+          Transform targetHolder = normalStanceHolder;
+
+          if (horizontalInput < 0)
+          {
+               targetHolder = leftTurnHolder;
+          }
+          else if (horizontalInput > 0)
+          {
+               targetHolder = rightTurnHolder;
+          }
+          else
+          {
+               targetHolder = normalStanceHolder;
+          }
+
+          // position is always the same
+          snowboard.transform.position = normalStanceHolder.position;
+          snowboard.transform.rotation = Quaternion.Lerp(snowboard.transform.rotation, targetHolder.rotation, Time.deltaTime * lerpSpeed);
+     }
+
+     private void UpdatePlayerRotation()
+     {
+          // Get the current local rotation angle of the player
+          float currentYRotation = playerObj.localEulerAngles.y;
+
+          // Convert to a -180 to 180 range for easier clamping
+          if (currentYRotation > 180)
+          {
+               currentYRotation -= 360;
+          }
+
+          // Calculate the new rotation with input
+          float newRotationY = currentYRotation + horizontalInput * moveSpeed * Time.deltaTime;
+
+          // Clamp the new rotation within -maxRotationAngle to +maxRotationAngle
+          newRotationY = Mathf.Clamp(newRotationY, -maxRotationAngle, maxRotationAngle);
+
+          // Apply the clamped rotation to the player
+          playerObj.localRotation = Quaternion.Euler(0, newRotationY, 0);
      }
 }
 

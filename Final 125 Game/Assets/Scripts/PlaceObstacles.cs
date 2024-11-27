@@ -47,7 +47,7 @@ public class PlaceObstacles : MonoBehaviour
                          }
                          else
                          {
-                              Debug.Log("Spawn chance not met at: " + hit.point);
+                              // Debug.Log("Spawn chance not met at: " + hit.point);
                          }
                     }
                     else
