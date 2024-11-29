@@ -9,15 +9,16 @@ public class CutsceneController : MonoBehaviour
     public PlayableDirector playableDirector; 
     public Rigidbody playerRigidbody;         
 
-    private Animation countdownAnimation;    
+    // public Animation countdownAnimation;    
+    public Animator countdownAnimator;
 
     void Start()
     {
         // Find the Animator on the countdown panel
-        countdownAnimation = countdownPanel.GetComponent<Animation>();
+        countdownAnimator = countdownPanel.GetComponent<Animator>();
 
         // Disable player movement
-        //playerController.cutsceneEnded = false;
+        playerController.cutsceneEnded = false;
 
         //Disable wisp movement
         wispNavigation.cutsceneEnded = false;
@@ -27,6 +28,11 @@ public class CutsceneController : MonoBehaviour
 
         // Subscribe to the PlayableDirector's stopped event
         playableDirector.stopped += OnCutsceneFinished;
+
+        // disable the script playerController and wispNavigation
+        playerController.enabled = false;
+        wispNavigation.enabled = false;
+
     }
 
     void OnDestroy()
@@ -40,12 +46,11 @@ public class CutsceneController : MonoBehaviour
         // Enable the countdown panel
         countdownPanel.SetActive(true);
 
-        
 
         // Play the countdown animation
-        if (countdownAnimation != null)
+        if (countdownAnimator != null)
         {
-            countdownAnimation.Play("countdown");
+            countdownAnimator.SetTrigger("PlayAnimation");
         }
         else
         {
@@ -64,12 +69,18 @@ public class CutsceneController : MonoBehaviour
         Debug.Log("player rigidbody can move!");
         
         // Enable player movement
-        //playerController.cutsceneEnded = true;
+        playerController.cutsceneEnded = true;
         Debug.Log("player movement enabled (cutsceneEnded)!");
-
 
         // Enable wisp movement
         wispNavigation.cutsceneEnded = true;
         Debug.Log("wisp movement enabled (cutsceneEnded)!");
+
+        // Disable the CutsceneController script
+        this.enabled = false;
+
+        // enable the script playerController and wispNavigation
+        playerController.enabled = true;
+        wispNavigation.enabled = true;
     }
 }

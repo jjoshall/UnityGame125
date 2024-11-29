@@ -35,6 +35,6 @@ public class WispNavigation : MonoBehaviour
           {
                agent.speed = 19;
           }
-          Debug.Log("Distance to player: " + Vector3.Distance(player.position, transform.position));
+          // Debug.Log("Distance to player: " + Vector3.Distance(player.position, transform.position));
      }
 }

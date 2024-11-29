@@ -2,151 +2,165 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement")]
-    public float moveSpeed;
-    public float groundDrag;
-    public float maxRotationAngle = 90f;
+     [Header("Movement")]
+     public float moveSpeed;
+     public float groundDrag;
+     public float maxRotationAngle = 90f;
 
-    [Header("Ground Check")]
-    public float playerHeight;
-    public LayerMask whatIsGround;
-    private bool grounded;
+     [Header("Ground Check")]
+     public float playerHeight;
+     public LayerMask whatIsGround;
+     private bool grounded;
 
-    [Header("Slope Handling")]
-    public float maxSlopeAngle;
-    private RaycastHit slopeHit;
+     [Header("Slope Handling")]
+     public float maxSlopeAngle;
+     private RaycastHit slopeHit;
 
-    [Header("Sliding")]
-    public float slideForce = 10f;
-    public float maxSpeed = 15f;
-    public float slopeThreshold = 5f;
-    public float sideSlideForce = 10f;
-    public float downhillBrakeForce = 5f;
+     [Header("Sliding")]
+     public float slideForce = 10f;
+     public float maxSpeed = 15f;
+     public float slopeThreshold = 5f;
+     public float sideSlideForce = 10f;
+     public float downhillBrakeForce = 5f;
 
-    private Rigidbody rb;
-    private float horizontalInput;
-    private bool canMove = true;
-    private bool sliding;
+     private Rigidbody rb;
+     private float horizontalInput;
+     private bool canMove = true;
+     private bool sliding;
 
-    [Header("References")]
-    public Transform orientation;
-    public Transform playerObj;
+     [Header("Cutscene")]
+     public bool cutsceneEnded;
 
-    private void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-    }
+     [Header("References")]
+     public Transform orientation;
+     public Transform playerObj;
 
-    private void Update()
-    {
-        // Ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
-        rb.drag = grounded ? groundDrag : 0;
+     private void Start()
+     {
+          rb = GetComponent<Rigidbody>();
+          rb.freezeRotation = true;
+     }
 
-        // Input handling
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+     private void Update()
+     {
+          // Ground check
+          grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+          rb.drag = grounded ? groundDrag : 0;
 
-        // Sliding logic
-        if (OnSlope() && GetSlopeAngle() > slopeThreshold)
-        {
-            canMove = false;
-            if (!sliding) StartSlide();
-        }
-        else
-        {
-            canMove = true;
-            sliding = false;
-        }
-    }
+          // Input handling
+          horizontalInput = Input.GetAxisRaw("Horizontal");
 
-    private void FixedUpdate()
-    {
-        if (sliding)
-        {
-            Sliding();
-            LimitSpeed();
-        }
-        else if (canMove)
-        {
-            FreeMovement();
-            LimitSpeed();
-        }
-    }
+          // Sliding logic
+          if (OnSlope() && GetSlopeAngle() > slopeThreshold)
+          {
+               canMove = false;
+               if (!sliding) StartSlide();
+          }
+          else
+          {
+               canMove = true;
+               sliding = false;
+          }
 
-    private void StartSlide()
-    {
-        sliding = true;
-        rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
-    }
+          float targetRotation = orientation.localEulerAngles.y + horizontalInput * moveSpeed * Time.deltaTime;
 
-    private void Sliding()
-    {
-        Vector3 downwardForce = OnSlope() ? GetSlopeMoveDirection(Vector3.down) : Vector3.down;
-        rb.AddForce(downwardForce * slideForce, ForceMode.Force);
+          // Convert it from [0, 360] range to [-180, 180] range for easier handling
+          if (targetRotation > 180) targetRotation -= 360;
 
-        Vector3 sideMovement = orientation.right * horizontalInput;
-        rb.AddForce(sideMovement * slideForce * 0.5f, ForceMode.Force);
+          // Clamp the rotation to between -90 and 90 degrees
+          targetRotation = Mathf.Clamp(targetRotation, -maxRotationAngle, maxRotationAngle);
 
-        if (rb.velocity.magnitude > maxSpeed)
-        {
-            rb.AddForce(-rb.velocity.normalized * downhillBrakeForce, ForceMode.Force);
-        }
-    }
+          // Apply the clamped rotation
+          orientation.localEulerAngles = new Vector3(0, targetRotation, 0);
+     }
 
-    private void LimitSpeed()
-    {
-        if (rb.velocity.magnitude > maxSpeed)
-        {
-            rb.velocity = rb.velocity.normalized * maxSpeed;
-        }
-    }
+     private void FixedUpdate()
+     {
+          if (sliding)
+          {
+               Sliding();
+               LimitSpeed();
+          }
+          else if (canMove)
+          {
+               FreeMovement();
+               LimitSpeed();
+          }
+     }
 
-    private void FreeMovement()
-    {
-        Vector3 sideMovement = orientation.right * horizontalInput * sideSlideForce;
-        rb.AddForce(sideMovement * moveSpeed, ForceMode.Force);
-    }
+     private void StartSlide()
+     {
+          sliding = true;
+          rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+     }
 
-    private float GetSlopeAngle()
-    {
-        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f, whatIsGround))
-        {
-            return Vector3.Angle(Vector3.up, slopeHit.normal);
-        }
-        return 0f;
-    }
+     private void Sliding()
+     {
+          Vector3 downwardForce = OnSlope() ? GetSlopeMoveDirection(Vector3.down) : Vector3.down;
+          rb.AddForce(downwardForce * slideForce, ForceMode.Force);
 
-    public bool OnSlope()
-    {
-        // Perform a raycast to check if the player is on a slope
-        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f, whatIsGround))
-        {
-            // Get the angle between the slope normal and Vector3.up (vertical)
-            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+          Vector3 sideMovement = orientation.right * horizontalInput;
+          rb.AddForce(sideMovement * slideForce * 0.5f, ForceMode.Force);
+
+          if (rb.velocity.magnitude > maxSpeed)
+          {
+               rb.AddForce(-rb.velocity.normalized * downhillBrakeForce, ForceMode.Force);
+          }
+     }
+
+     private void LimitSpeed()
+     {
+          if (rb.velocity.magnitude > maxSpeed)
+          {
+               rb.velocity = rb.velocity.normalized * maxSpeed;
+          }
+     }
+
+     private void FreeMovement()
+     {
+          Vector3 sideMovement = orientation.right * horizontalInput * sideSlideForce;
+          rb.AddForce(sideMovement * moveSpeed, ForceMode.Force);
+     }
+
+     private float GetSlopeAngle()
+     {
+          if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f, whatIsGround))
+          {
+               return Vector3.Angle(Vector3.up, slopeHit.normal);
+          }
+          return 0f;
+     }
+
+     public bool OnSlope()
+     {
+          // Perform a raycast to check if the player is on a slope
+          if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f, whatIsGround))
+          {
+               // Get the angle between the slope normal and Vector3.up (vertical)
+               float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
 
 
-            // Ensure the slope angle is within acceptable range
-            return slopeHit.collider != null && angle > 0 && angle <= maxSlopeAngle;
-        }
+               // Ensure the slope angle is within acceptable range
+               return slopeHit.collider != null && angle > 0 && angle <= maxSlopeAngle;
+          }
 
-        // If raycast doesn't hit anything or player is not on a slope
-        return false;
-    }
+          // If raycast doesn't hit anything or player is not on a slope
+          return false;
+     }
 
-    private Vector3 GetSlopeMoveDirection(Vector3 direction)
-    {
-        return slopeHit.collider != null ? Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized : Vector3.zero;
-    }
+     private Vector3 GetSlopeMoveDirection(Vector3 direction)
+     {
+          return slopeHit.collider != null ? Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized : Vector3.zero;
+     }
 
-    public Vector3 GetSlopeNormal()
-    {
-        if (OnSlope())
-        {
-            return slopeHit.normal; // slopeHit is the RaycastHit from OnSlope()
-        }
-        return Vector3.up; // Default normal (flat surface)
-    }
+     public Vector3 GetSlopeNormal()
+     {
+          if (OnSlope())
+          {
+               return slopeHit.normal; // slopeHit is the RaycastHit from OnSlope()
+          }
+          return Vector3.up; // Default normal (flat surface)
+     }
 
 }
 
