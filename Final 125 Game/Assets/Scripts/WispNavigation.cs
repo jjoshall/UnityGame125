@@ -10,6 +10,9 @@ public class WispNavigation : MonoBehaviour
      public Transform player;
      private NavMeshAgent agent;
 
+     public bool cutsceneEnded = true;
+
+
      // Start is called before the first frame update
      void Start()
      {
@@ -19,6 +22,7 @@ public class WispNavigation : MonoBehaviour
      // Update is called once per frame
      void Update()
      {
+          if (!cutsceneEnded) return;
           // Make the agent's destination the endpoint
           agent.SetDestination(endPoint.position);
 
