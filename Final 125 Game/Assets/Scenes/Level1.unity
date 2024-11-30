@@ -601,7 +601,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 63
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -775,7 +775,7 @@ GameObject:
   - component: {fileID: 101470864}
   - component: {fileID: 101470863}
   - component: {fileID: 101470862}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: inside
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -2666,7 +2666,7 @@ GameObject:
   - component: {fileID: 873263832}
   - component: {fileID: 873263831}
   - component: {fileID: 873263834}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: inside
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -3318,6 +3318,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f5d1ffe5a4909ad4bb9ebe97c5682d05, type: 3}
       propertyPath: m_Name
       value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f5d1ffe5a4909ad4bb9ebe97c5682d05, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f5d1ffe5a4909ad4bb9ebe97c5682d05, type: 3}
       propertyPath: m_TagString
@@ -5104,6 +5108,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f5d1ffe5a4909ad4bb9ebe97c5682d05, type: 3}
       propertyPath: m_Name
       value: Crystal (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f5d1ffe5a4909ad4bb9ebe97c5682d05, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f5d1ffe5a4909ad4bb9ebe97c5682d05, type: 3}
       propertyPath: m_TagString
