@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class CollectableScript : MonoBehaviour
 {
     [Header("Settings")]
-    public int value;
+    public int value = 1;
 
     [Header("References")]
     public Animator animator;
@@ -16,18 +16,35 @@ public class CollectableScript : MonoBehaviour
     private bool collected = false;
     private void OnTriggerEnter(Collider other)
     {
+        if (collected) return; // Ignore if already collected
+
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player collided with collectable!");
+            // Get reference to the PlayerGen script
+            PlayerGen player = other.GetComponent<PlayerGen>();
+            if (player != null)
+            {
+                // Add to inventory and handle collection
+                player.AddCollectable(value);
+                StartCoroutine(Collect());
+            }
+            else
+            {
+                Debug.LogWarning("No PlayerGen script found on the player!");
+            }
         }
     }
 
-    public void Collect()
+    public IEnumerator Collect()
     {
-        if (collected) return; // Prevent multiple collections
         collected = true;
 
-        PlayCollectAnimation();
+        // Play animation or effects here
+        //PlayCollectAnimation();
+        yield return new WaitForSeconds(destroyDelay); // Adjust this duration to match animation time
+
+        // Destroy the object after the animation
+        Destroy(gameObject);
     }
     private void PlayCollectAnimation()
     {
@@ -38,6 +55,5 @@ public class CollectableScript : MonoBehaviour
 
         // Destroy the object after the animation finishes
         Destroy(gameObject, destroyDelay);
-        Debug.Log("Collected " + value + "!");
     }
 }
