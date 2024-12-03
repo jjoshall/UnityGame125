@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class RestartGameHitboxScript : MonoBehaviour
 {
-     // If the player enters the hitbox, say they beat the level and restart the game.  
-     private void OnTriggerEnter(Collider other)
+    public WinScript winScript;
+    // If the player enters the hitbox, say they beat the level and restart the game.  
+    private void OnTriggerEnter(Collider other)
      {
           if (other.gameObject.tag == "Player")
           {
@@ -14,8 +15,8 @@ public class RestartGameHitboxScript : MonoBehaviour
                Cursor.lockState = CursorLockMode.None;
                Cursor.visible = true;
 
-               // load the level completed scene
-               SceneManager.LoadScene("LevelCompletedMenu");
-          }
+               // load the level completed ui
+               winScript.ShowWinScreen();
+        }
      }
 }

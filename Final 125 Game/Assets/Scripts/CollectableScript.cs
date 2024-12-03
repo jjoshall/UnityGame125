@@ -52,8 +52,5 @@ public class CollectableScript : MonoBehaviour
         {
             animator.SetTrigger("Collected"); // Trigger the animation
         }
-
-        // Destroy the object after the animation finishes
-        Destroy(gameObject, destroyDelay);
     }
 }
