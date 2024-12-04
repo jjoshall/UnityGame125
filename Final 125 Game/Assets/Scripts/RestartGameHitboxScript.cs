@@ -5,9 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class RestartGameHitboxScript : MonoBehaviour
 {
-    public WinScript winScript;
-    // If the player enters the hitbox, say they beat the level and restart the game.  
-    private void OnTriggerEnter(Collider other)
+     public WinScript winScript;
+
+     // If the player enters the hitbox, say they beat the level and restart the game.  
+     private void OnTriggerEnter(Collider other)
      {
           if (other.gameObject.tag == "Player")
           {
@@ -15,8 +16,15 @@ public class RestartGameHitboxScript : MonoBehaviour
                Cursor.lockState = CursorLockMode.None;
                Cursor.visible = true;
 
-               // load the level completed ui
-               winScript.ShowWinScreen();
-        }
+               StartCoroutine(ShowRestartMenuAfterPause(2f));
+          }
+     }
+
+     private IEnumerator ShowRestartMenuAfterPause(float delay)
+     {
+          yield return new WaitForSeconds(delay);
+
+          // load the level completed ui
+          winScript.ShowWinScreen();
      }
 }

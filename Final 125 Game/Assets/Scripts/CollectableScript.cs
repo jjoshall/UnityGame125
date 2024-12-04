@@ -40,7 +40,7 @@ public class CollectableScript : MonoBehaviour
         collected = true;
 
         // Play animation or effects here
-        //PlayCollectAnimation();
+        // PlayCollectAnimation();
         yield return new WaitForSeconds(destroyDelay); // Adjust this duration to match animation time
 
         // Destroy the object after the animation
