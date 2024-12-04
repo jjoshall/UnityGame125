@@ -63,9 +63,6 @@ public class CollectableScript : MonoBehaviour
                         audioSource.PlayOneShot(collectSound);
                         Debug.Log("Playing collect sound");
                 }
-
-                    // Deactivate the object
-                    gameObject.SetActive(false);
             }
             else
             {
