@@ -118,7 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35acff072b244c94da2c735b30043af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverUI: {fileID: 0}
+  playerExplosion: {fileID: 0}
+  hitSound: {fileID: 8300000, guid: d5a67030cb70a414e80407026ea3da19, type: 3}
 --- !u!1 &7959662522056669187
 GameObject:
   m_ObjectHideFlags: 0

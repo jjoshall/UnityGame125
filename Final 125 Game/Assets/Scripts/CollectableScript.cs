@@ -12,9 +12,27 @@ public class CollectableScript : MonoBehaviour
     [Header("References")]
     public Animator animator;
     public float destroyDelay = 0.5f;
+     
+    // Reference the player's particle effects
+    public ParticleSystem playerExplosion;  
 
-    private bool collected = false;
-    private void OnTriggerEnter(Collider other)
+     // Making audio sounds
+     public AudioClip collectSound;
+     private AudioSource audioSource;
+
+     private bool collected = false;
+
+     private void Start()
+     {
+          // Find the audio source in the scene
+          audioSource = GetComponent<AudioSource>();
+          if (audioSource == null)
+          {
+               audioSource = gameObject.AddComponent<AudioSource>();
+          }
+     }
+
+     private void OnTriggerEnter(Collider other)
     {
         if (collected) return; // Ignore if already collected
 
@@ -26,7 +44,28 @@ public class CollectableScript : MonoBehaviour
             {
                 // Add to inventory and handle collection
                 player.AddCollectable(value);
-                StartCoroutine(Collect());
+
+                // Play the particle effects
+                if (playerExplosion != null)
+                {
+                         playerExplosion.transform.position = other.transform.position;
+
+                         // Raise the position of the particle effects to avoid clipping through the ground
+                         Vector3 pos = playerExplosion.transform.position;
+                         pos.y += 1.5f;
+                         playerExplosion.transform.position = pos;
+                         playerExplosion.Play();
+                }
+
+                // Play the hit sound
+                if (audioSource != null && collectSound != null)
+                {
+                        audioSource.PlayOneShot(collectSound);
+                        Debug.Log("Playing collect sound");
+                }
+
+                    // Deactivate the object
+                    gameObject.SetActive(false);
             }
             else
             {
@@ -35,6 +74,7 @@ public class CollectableScript : MonoBehaviour
         }
     }
 
+/*
     public IEnumerator Collect()
     {
         collected = true;
@@ -46,11 +86,13 @@ public class CollectableScript : MonoBehaviour
         // Destroy the object after the animation
         Destroy(gameObject);
     }
-    private void PlayCollectAnimation()
+    
+     private void PlayCollectAnimation()
     {
         if (animator != null)
         {
             animator.SetTrigger("Collected"); // Trigger the animation
         }
     }
+     */
 }
