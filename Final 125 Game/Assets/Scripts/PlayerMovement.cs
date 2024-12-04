@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -5,9 +6,10 @@ public class PlayerMovement : MonoBehaviour
      [Header("Movement")]
      public float moveSpeed;
      public float groundDrag;
-     public float maxRotationAngle = 90f;
+     public float maxRotationAngle = 135f;
+     public float minRotationAngle = 45f;
 
-     [Header("Ground Check")]
+    [Header("Ground Check")]
      public float playerHeight;
      public LayerMask whatIsGround;
      private bool grounded;
@@ -35,7 +37,9 @@ public class PlayerMovement : MonoBehaviour
      public Transform orientation;
      public Transform playerObj;
 
-     private void Start()
+    private float currentRotation = 90f;
+
+    private void Start()
      {
           rb = GetComponent<Rigidbody>();
           rb.freezeRotation = true;
@@ -62,17 +66,17 @@ public class PlayerMovement : MonoBehaviour
                sliding = false;
           }
 
-          float targetRotation = orientation.localEulerAngles.y + horizontalInput * moveSpeed * Time.deltaTime;
+          float targetRotation = currentRotation + (horizontalInput * moveSpeed * Time.deltaTime * 10);
 
-          // Convert it from [0, 360] range to [-180, 180] range for easier handling
-          if (targetRotation > 180) targetRotation -= 360;
+          // Clamp the rotation to the specified range
+          targetRotation = Mathf.Clamp(targetRotation, minRotationAngle, maxRotationAngle);
 
-          // Clamp the rotation to between -90 and 90 degrees
-          targetRotation = Mathf.Clamp(targetRotation, -maxRotationAngle, maxRotationAngle);
+          // Apply rotation to `orby` (child object)
+          playerObj.localRotation = Quaternion.Euler(0, targetRotation, 37);
 
-          // Apply the clamped rotation
-          orientation.localEulerAngles = new Vector3(0, targetRotation, 0);
-     }
+          // Update the current rotation for clamping continuity
+          currentRotation = targetRotation;
+    }
 
      private void FixedUpdate()
      {

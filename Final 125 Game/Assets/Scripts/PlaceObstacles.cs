@@ -52,7 +52,7 @@ public class PlaceObstacles : MonoBehaviour
                     }
                     else
                     {
-                         Debug.Log("Raycast did not hit.");
+                         //Debug.Log("Raycast did not hit.");
                     }
                }
           }
