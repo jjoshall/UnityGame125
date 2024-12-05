@@ -21,4 +21,16 @@ public class Menu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void NewGame()
+    {
+        // Reset saved stars for all levels
+        PlayerPrefs.SetInt("Level1Stars", 0);
+        PlayerPrefs.SetInt("Level2Stars", 0);
+        PlayerPrefs.SetInt("Level3Stars", 0);
+        PlayerPrefs.Save();
+
+        // Navigate to the Level Select screen
+        SceneManager.LoadScene("LevelSelect");
+    }
 }

@@ -1853,6 +1853,11 @@ MonoBehaviour:
   totalCollectables: 2
   starSprite: {fileID: 21300000, guid: 9118297ad45f94540a12e3e5c511a76e, type: 3}
   emptyStarSprite: {fileID: 21300000, guid: 0be4b93be7f562c469539187221db83c, type: 3}
+  level1Button: {fileID: 1718641534}
+  level2Button: {fileID: 414260248}
+  level3Button: {fileID: 75735538}
+  level2RequirementText: {fileID: 1662164672}
+  level3RequirementText: {fileID: 928652590}
 --- !u!1 &1655756711
 GameObject:
   m_ObjectHideFlags: 0
