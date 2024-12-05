@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
      public float maxRotationAngle = 135f;
      public float minRotationAngle = 45f;
 
-    [Header("Ground Check")]
+     [Header("Ground Check")]
      public float playerHeight;
      public LayerMask whatIsGround;
      private bool grounded;
@@ -31,15 +31,15 @@ public class PlayerMovement : MonoBehaviour
      private bool sliding;
 
      [Header("Cutscene")]
-     public bool cutsceneEnded;
+     public bool cutsceneEnded = false;
 
      [Header("References")]
      public Transform orientation;
      public Transform playerObj;
 
-    private float currentRotation = 90f;
+     private float currentRotation = 90f;
 
-    private void Start()
+     private void Start()
      {
           rb = GetComponent<Rigidbody>();
           rb.freezeRotation = true;
@@ -47,6 +47,15 @@ public class PlayerMovement : MonoBehaviour
 
      private void Update()
      {
+          if (cutsceneEnded)
+          {
+               rb.constraints = RigidbodyConstraints.None;
+               rb.freezeRotation = true;
+          }
+          else
+          {
+               rb.constraints = RigidbodyConstraints.FreezeAll;
+          }
           // Ground check
           grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
           rb.drag = grounded ? groundDrag : 0;
@@ -76,7 +85,8 @@ public class PlayerMovement : MonoBehaviour
 
           // Update the current rotation for clamping continuity
           currentRotation = targetRotation;
-    }
+
+     }
 
      private void FixedUpdate()
      {
@@ -90,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
                FreeMovement();
                LimitSpeed();
           }
+
      }
 
      private void StartSlide()
