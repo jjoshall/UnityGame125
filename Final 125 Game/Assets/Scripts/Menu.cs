@@ -13,11 +13,11 @@ public class Menu : MonoBehaviour
 
     public void GoToNextLevel()
     {
-        // Load the next scene in the build settings
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+          // Load a specific scene
+          SceneManager.LoadScene("Level1");
     }
 
-    public void QuitGame()
+     public void QuitGame()
     {
         Application.Quit();
     }

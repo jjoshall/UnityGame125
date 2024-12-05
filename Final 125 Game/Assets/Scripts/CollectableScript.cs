@@ -10,27 +10,15 @@ public class CollectableScript : MonoBehaviour
     public int value = 1;
 
     [Header("References")]
-    public Animator animator;
     public float destroyDelay = 0.5f;
      
     // Reference the player's particle effects
-    public ParticleSystem playerExplosion;  
+    public ParticleSystem playerExplosion;
 
-     // Making audio sounds
-     public AudioClip collectSound;
-     private AudioSource audioSource;
+     // Reference the whole collectible object
+     public GameObject collectable;     
 
      private bool collected = false;
-
-     private void Start()
-     {
-          // Find the audio source in the scene
-          audioSource = GetComponent<AudioSource>();
-          if (audioSource == null)
-          {
-               audioSource = gameObject.AddComponent<AudioSource>();
-          }
-     }
 
      private void OnTriggerEnter(Collider other)
     {
@@ -57,39 +45,20 @@ public class CollectableScript : MonoBehaviour
                          playerExplosion.Play();
                 }
 
-                // Play the hit sound
-                if (audioSource != null && collectSound != null)
-                {
-                        audioSource.PlayOneShot(collectSound);
-                        Debug.Log("Playing collect sound");
-                }
-            }
-            else
+                    // Start couroutine to destroy the object
+                    StartCoroutine(DestroyCollectable());
+               }
+               else
             {
                 Debug.LogWarning("No PlayerGen script found on the player!");
             }
         }
     }
 
-/*
-    public IEnumerator Collect()
-    {
-        collected = true;
-
-        // Play animation or effects here
-        // PlayCollectAnimation();
-        yield return new WaitForSeconds(destroyDelay); // Adjust this duration to match animation time
-
-        // Destroy the object after the animation
-        Destroy(gameObject);
-    }
-    
-     private void PlayCollectAnimation()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("Collected"); // Trigger the animation
-        }
-    }
-     */
+     private IEnumerator DestroyCollectable()
+     {
+          collected = true;
+          yield return new WaitForSeconds(destroyDelay);
+          collectable.SetActive(false);
+     }
 }
