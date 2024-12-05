@@ -8,13 +8,13 @@ public class Menu : MonoBehaviour
     public void GoToMainMenu()
     {
         // Load the main menu scene
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void GoToNextLevel()
     {
           // Load a specific scene
-          SceneManager.LoadScene("Level1");
+          SceneManager.LoadScene("LevelSelect");
     }
 
      public void QuitGame()
