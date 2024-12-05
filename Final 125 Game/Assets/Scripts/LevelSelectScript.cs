@@ -17,8 +17,6 @@ public class LevelSelectScript : MonoBehaviour
     public Sprite starSprite;
     public Sprite emptyStarSprite;
 
-    
-
     public void GoToLevel1()
      {
           // Load the first level
@@ -52,7 +50,7 @@ public class LevelSelectScript : MonoBehaviour
     
     private string GenerateStarDisplay(int collected)
     {
-        [0].sprite = starSprite;
+        Level1Stars[0].sprite = starSprite;
 
         string result = "Level Completed\n";
 
@@ -61,7 +59,7 @@ public class LevelSelectScript : MonoBehaviour
             if (i < collected)
             {
                 result += "Crystal Collected\n"; // Star earned
-                stars[i + 1].sprite = starSprite;
+                Level1Stars[i + 1].sprite = starSprite;
             }
             else
             {

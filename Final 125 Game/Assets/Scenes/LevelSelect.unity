@@ -1838,6 +1838,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9e24b7b0561a8a499500444f5df3c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Level1Stars:
+  - {fileID: 136861173}
+  - {fileID: 1164853741}
+  - {fileID: 1655756713}
+  Level2Stars:
+  - {fileID: 1399951101}
+  - {fileID: 1563563828}
+  - {fileID: 908213099}
+  Level3Stars:
+  - {fileID: 1948822291}
+  - {fileID: 212885426}
+  - {fileID: 1114972624}
+  totalCollectables: 2
+  starSprite: {fileID: 21300000, guid: 9118297ad45f94540a12e3e5c511a76e, type: 3}
+  emptyStarSprite: {fileID: 21300000, guid: 0be4b93be7f562c469539187221db83c, type: 3}
 --- !u!1 &1655756711
 GameObject:
   m_ObjectHideFlags: 0
@@ -2266,6 +2281,7 @@ GameObject:
   - component: {fileID: 2061794908}
   - component: {fileID: 2061794907}
   - component: {fileID: 2061794906}
+  - component: {fileID: 2061794909}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2347,6 +2363,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2061794909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061794905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &2145763665
 GameObject:
   m_ObjectHideFlags: 0
