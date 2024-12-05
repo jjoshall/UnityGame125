@@ -10,7 +10,7 @@ public class WispNavigation : MonoBehaviour
      public Transform player;
      private NavMeshAgent agent;
 
-     public bool cutsceneEnded = true;
+     public bool cutsceneEnded = false;
 
 
      // Start is called before the first frame update
@@ -22,19 +22,26 @@ public class WispNavigation : MonoBehaviour
      // Update is called once per frame
      void Update()
      {
-          if (!cutsceneEnded) return;
-          // Make the agent's destination the endpoint
-          agent.SetDestination(endPoint.position);
+          if (cutsceneEnded)
+            {
+                // Make the agent's destination the endpoint
+                agent.SetDestination(endPoint.position);
 
-          // If the player gets close to the wisp, the wisp will get a little bit faster
-          if (Vector3.Distance(player.position, transform.position) < 15)
-          {
-               agent.speed = 24;
-          }
-          else
-          {
-               agent.speed = 19;
-          }
-          // Debug.Log("Distance to player: " + Vector3.Distance(player.position, transform.position));
-     }
+                // If the player gets close to the wisp, the wisp will get a little bit faster
+                if (Vector3.Distance(player.position, transform.position) < 15)
+                {
+                    agent.speed = 24;
+                }
+                else
+                {
+                    agent.speed = 19;
+                }
+                // Debug.Log("Distance to player: " + Vector3.Distance(player.position, transform.position));
+            }
+    }
+
+    public void CutsceneEnded()
+    {
+        cutsceneEnded = true;
+    }
 }

@@ -16,7 +16,7 @@ public class RestartGameHitboxScript : MonoBehaviour
                Cursor.lockState = CursorLockMode.None;
                Cursor.visible = true;
 
-               StartCoroutine(ShowRestartMenuAfterPause(2f));
+               StartCoroutine(ShowRestartMenuAfterPause(.1f));
           }
      }
 

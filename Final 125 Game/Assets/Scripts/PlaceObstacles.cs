@@ -8,6 +8,7 @@ public class PlaceObstacles : MonoBehaviour
 {
      [Header("Spawn Settings")]
      public GameObject obstaclePrefab;
+     public GameObject crystalPrefab;
      public float spawnChance;
 
      [Header("Raycast Settings")]
@@ -21,6 +22,7 @@ public class PlaceObstacles : MonoBehaviour
           SpawnObstacles();
      }
 
+    /*
      private void Update()
      {
           // Press space to delete and respawn obstacles
@@ -30,6 +32,7 @@ public class PlaceObstacles : MonoBehaviour
                SpawnObstacles();
           }
      }
+    */
 
      // SpawnObstacles() will spawn obstacles in the area defined by positivePosition and negativePosition
      void SpawnObstacles()
@@ -43,16 +46,21 @@ public class PlaceObstacles : MonoBehaviour
                     {
                          if (Random.Range(0, 101) < spawnChance)
                          {
-                              Instantiate(obstaclePrefab, hit.point, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform);
+                                // Determine whether to spawn an obstacle or a crystal
+                                GameObject prefabToSpawn = Random.Range(0f, 1f) < 0.7f ? obstaclePrefab : crystalPrefab;
+
+                                // Instantiate with random rotation
+                                if (prefabToSpawn == crystalPrefab)
+                                {
+                                    Vector3 crystalPos = hit.point;
+                                    crystalPos.y += 0.3f;
+                                    Instantiate(prefabToSpawn, hit.point, Quaternion.Euler(-127, 0, 0), transform);
+                                }
+                                else
+                                {
+                                    Instantiate(prefabToSpawn, hit.point, Quaternion.Euler(0, Random.Range(0, 360), 0), transform);
+                                }
                          }
-                         else
-                         {
-                              // Debug.Log("Spawn chance not met at: " + hit.point);
-                         }
-                    }
-                    else
-                    {
-                         //Debug.Log("Raycast did not hit.");
                     }
                }
           }
