@@ -63,7 +63,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: f5d1ffe5a4909ad4bb9ebe97c5682d05, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: da94bf2d7917c724c9794bc758e23ada, type: 2}
+      objectReference: {fileID: 2100000, guid: d5d92b24fd46d3e4cbf9247a4000050b, type: 2}
     - target: {fileID: 919132149155446097, guid: f5d1ffe5a4909ad4bb9ebe97c5682d05, type: 3}
       propertyPath: m_Name
       value: crystalObstacle
