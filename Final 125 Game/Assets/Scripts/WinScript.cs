@@ -39,6 +39,7 @@ public class WinScript : MonoBehaviour
         if (starText != null)
         {
             starText.text = GenerateStarDisplay(collected);
+            playerGen.SaveStars(SceneManager.GetActiveScene().buildIndex - 1, collected + 1);
         }
 
         Time.timeScale = 0f; // Pause the game

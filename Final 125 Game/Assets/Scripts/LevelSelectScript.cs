@@ -43,30 +43,23 @@ public class LevelSelectScript : MonoBehaviour
 
     private void Start()
     {
-        
+        // Update star display for each level
+        DisplayStars(1, Level1Stars);
+        DisplayStars(2, Level2Stars);
+        DisplayStars(3, Level3Stars);
     }
 
     // Called when the player wins the game
     
-    private string GenerateStarDisplay(int collected)
+    private void DisplayStars(int level, Image[] starImages)
     {
-        Level1Stars[0].sprite = starSprite;
+        // Get saved stars for the level
+        int starsEarned = PlayerPrefs.GetInt($"Level{level}Stars", 0);
 
-        string result = "Level Completed\n";
-
-        for (int i = 0; i < totalCollectables; i++)
+        // Update UI
+        for (int i = 0; i < starImages.Length; i++)
         {
-            if (i < collected)
-            {
-                result += "Crystal Collected\n"; // Star earned
-                Level1Stars[i + 1].sprite = starSprite;
-            }
-            else
-            {
-                result += "Missing Crystal\n"; // Empty star
-            }
+            starImages[i].sprite = (i < starsEarned) ? starSprite : emptyStarSprite;
         }
-
-        return result;
     }
 }
