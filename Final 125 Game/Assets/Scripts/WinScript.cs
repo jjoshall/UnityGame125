@@ -74,10 +74,10 @@ public class WinScript : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload current scene
     }
 
-    // Button functionality for main menu
-    public void MainMenu()
+    // Button functionality for LEVEL SELECT
+    public void LevelSelect()
     {
         Time.timeScale = 1f; // Resume the game
-        SceneManager.LoadScene("MainMenu"); // Replace with your Main Menu scene name
+        SceneManager.LoadScene("LevelSelect"); // Replace with your Main Menu scene name
     }
 }

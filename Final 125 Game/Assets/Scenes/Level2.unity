@@ -10612,7 +10612,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Main Menu
+  m_text: Level Select
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: b246c4190f4e46ec9352fe15a7b09ce0, type: 2}
@@ -13406,7 +13406,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 28, y: -243}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 170, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &572033870
 MonoBehaviour:
@@ -14847,7 +14847,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 28, y: -141}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 170, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &904352985
 MonoBehaviour:
@@ -14895,7 +14895,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 814711362}
         m_TargetAssemblyTypeName: WinScript, Assembly-CSharp
-        m_MethodName: MainMenu
+        m_MethodName: LevelSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15412,7 +15412,7 @@ Transform:
   m_GameObject: {fileID: 979151762}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00000047684, y: -325.3, z: -89.4}
+  m_LocalPosition: {x: -0.00000047684, y: -325.3, z: -80.93}
   m_LocalScale: {x: 118.02384, y: 70.595, z: 4.512144}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15578,7 +15578,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 74d3690557e642446bf0b074a558707e, type: 2}
+  - {fileID: 2100000, guid: 5d8af8f434f69794eabd684fb44b4fbf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15710,7 +15710,7 @@ Transform:
   m_GameObject: {fileID: 992969329}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.1587, y: 9.93, z: -0.0543}
+  m_LocalPosition: {x: -0.1845, y: 9.93, z: -0.0087}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
