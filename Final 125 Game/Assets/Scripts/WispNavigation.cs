@@ -27,15 +27,22 @@ public class WispNavigation : MonoBehaviour
                 // Make the agent's destination the endpoint
                 agent.SetDestination(endPoint.position);
 
-                // If the player gets close to the wisp, the wisp will get a little bit faster
-                if (Vector3.Distance(player.position, transform.position) < 15)
-                {
-                    agent.speed = 24;
-                }
-                else
-                {
-                    agent.speed = 19;
-                }
+            // If the player gets close to the wisp, the wisp will get a little bit faster
+            if (Vector3.Distance(player.position, transform.position) < 5)
+            {
+                agent.speed = 34;
+            }
+            else if (Vector3.Distance(player.position, transform.position) < 10) {
+                agent.speed = 29;
+            }
+            else if (Vector3.Distance(player.position, transform.position) < 15)
+            {
+                agent.speed = 24;
+            }
+            else
+            {
+                agent.speed = 19;
+            }
                 // Debug.Log("Distance to player: " + Vector3.Distance(player.position, transform.position));
             }
     }
